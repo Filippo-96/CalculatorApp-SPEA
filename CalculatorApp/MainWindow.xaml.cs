@@ -56,9 +56,7 @@ namespace CalculatorApp
       if (ok)
       {
         Display.Text = result.ToString();
-        history.Add($"{expression} = {result}");
-        HistoryList.ItemsSource = null;
-        HistoryList.ItemsSource = history;
+        fManageHistory(expression, result);
         expression = result.ToString(); // consente di continuare a calcolare
       }
       else
@@ -66,6 +64,13 @@ namespace CalculatorApp
         Display.Text = "Errore";
         expression = "";
       }
+    }
+
+    private void fManageHistory(string pExp, double pResult)
+    {
+      history.Add($"{pExp} = {pResult}");
+      HistoryList.ItemsSource = null;
+      HistoryList.ItemsSource = history;
     }
 
 
@@ -92,6 +97,7 @@ namespace CalculatorApp
     {
       double result = 0;
       CalculatorLogic.Sin(Double.Parse(Display.Text), out result);
+      fManageHistory($"Sin{Display.Text}",result);
       Display.Text = result.ToString();
     }
 
@@ -99,6 +105,7 @@ namespace CalculatorApp
     {
       double result = 0;
       CalculatorLogic.Cos(Double.Parse(Display.Text), out result);
+      fManageHistory($"Cos{Display.Text}", result);
       Display.Text = result.ToString();
     }
 
@@ -106,6 +113,7 @@ namespace CalculatorApp
     {
       double result = 0;
       CalculatorLogic.Tan(Double.Parse(Display.Text), out result);
+      fManageHistory($"Tan{Display.Text}", result);
       Display.Text = result.ToString();
     }
 
@@ -113,6 +121,7 @@ namespace CalculatorApp
     {
       double result = 0;
       CalculatorLogic.Asin(Double.Parse(Display.Text), out result);
+      fManageHistory($"Asin{Display.Text}", result);
       Display.Text = result.ToString();
     }
 
@@ -120,6 +129,7 @@ namespace CalculatorApp
     {
       double result = 0;
       CalculatorLogic.Acos(Double.Parse(Display.Text), out result);
+      fManageHistory($"Acos{Display.Text}", result);
       Display.Text = result.ToString();
     }
 
@@ -127,6 +137,7 @@ namespace CalculatorApp
     {
       double result = 0;
       CalculatorLogic.Atan(Double.Parse(Display.Text), out result);
+      fManageHistory($"Atan{Display.Text}", result);
       Display.Text = result.ToString();
     }
 
@@ -134,6 +145,7 @@ namespace CalculatorApp
     {
       double result = 0;
       CalculatorLogic.DegreeToRad(Double.Parse(Display.Text), out result);
+      fManageHistory($"DegreeToRad {Display.Text}", result);
       Display.Text = result.ToString();
     }
 
@@ -141,6 +153,7 @@ namespace CalculatorApp
     {
       double result = 0;
       CalculatorLogic.RadToDegree(Double.Parse(Display.Text), out result);
+      fManageHistory($"RadToDegree {Display.Text}", result);
       Display.Text = result.ToString();
     }
 
