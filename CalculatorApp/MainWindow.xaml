@@ -1,7 +1,7 @@
 ﻿<Window x:Class="CalculatorApp.MainWindow"
 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-Title="Calcolatrice" Width="330" Height="540" WindowStartupLocation="CenterScreen">
+Title="Calcolatrice" Width="330" Height="600" WindowStartupLocation="CenterScreen">
     <Window.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
             <GradientStop Color="#FFB3E5FC" Offset="0"/>
@@ -83,11 +83,24 @@ Title="Calcolatrice" Width="330" Height="540" WindowStartupLocation="CenterScree
 
         <!-- HISTORY PANEL -->
         <Border x:Name="HistoryPanel" Grid.Row="1" Background="#55FFFFFF" CornerRadius="6" Padding="8" Margin="0 0 0 10" Visibility="Collapsed">
-            <ListBox x:Name="HistoryList" Background="Transparent" BorderThickness="0" Foreground="{StaticResource TextDark}" FontFamily="Consolas" FontSize="14"/>
+            <ListBox x:Name="HistoryList" Background="Transparent" BorderThickness="0" Foreground="{StaticResource TextDark}" FontFamily="Consolas" FontSize="14"
+                      MaxHeight="75"/>
         </Border>
 
         <!-- KEYPAD -->
-        <UniformGrid Grid.Row="2" Rows="6" Columns="4" Margin="0,0,0,10">
+        <UniformGrid Grid.Row="2" Rows="8" Columns="4" Margin="0,0,0,10">
+            <!-- sin, cos, tan, asin, acos, atan -->
+            <Button Content="sin" Style="{StaticResource CalcButtonStyle}" Click="Sin_Click"/>
+            <Button Content="cos" Style="{StaticResource CalcButtonStyle}" Click="Cos_Click"/>
+            <Button Content="tan" Style="{StaticResource CalcButtonStyle}" Click="Tan_Click"/>
+            <Button Content="asin" Style="{StaticResource CalcButtonStyle}" Click="Asin_Click"/>
+            <Button Content="acos" Style="{StaticResource CalcButtonStyle}" Click="Acos_Click"/>
+            <Button Content="atan" Style="{StaticResource CalcButtonStyle}" Click="Atan_Click"/>
+            <!-- °→rad, rad→° -->
+            <Button Content="°→rad" Style="{StaticResource CalcButtonStyle}" Click="DegreeToRad_Click"/>
+            <Button Content="rad→°" Style="{StaticResource CalcButtonStyle}" Click="RadToDegree_Click"/>
+
+
             <Button Content="(" Style="{StaticResource CalcButtonStyle}" Click="Button_Click"/>
             <Button Content=")" Style="{StaticResource CalcButtonStyle}" Click="Button_Click"/>
             <Button Content="√" Style="{StaticResource CalcButtonStyle}" Click="Button_Click"/>
@@ -108,6 +121,11 @@ Title="Calcolatrice" Width="330" Height="540" WindowStartupLocation="CenterScree
             <Button Content="." Style="{StaticResource CalcButtonStyle}" Click="Button_Click"/>
             <Button Content="=" Style="{StaticResource CalcButtonStyle}" Click="Equals_Click"/>
             <Button Content="+" Style="{StaticResource CalcButtonStyle}" Click="Button_Click"/>
+
+            <!-- π (pi greco), e (numero di Nepero) -->
+            <Button Content="π" Style="{StaticResource CalcButtonStyle}" Click="Pi_Click"/>
+            <Button Content="e" Style="{StaticResource CalcButtonStyle}" Click="NepreroNumber_Click"/>
+            
         </UniformGrid>
 
         <!-- UTILITY BUTTONS -->
