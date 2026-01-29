@@ -9,9 +9,13 @@ namespace CalculatorApp
     private string expression = "";               // espressione visualizzata e valutata
     private readonly List<string> history = new(); // storico operazioni
 
+    // Delegate for trigonometric functions
+    private delegate bool TrigFunction(double input, out double result);
+
     public MainWindow()
     {
       InitializeComponent();
+      HistoryList.ItemsSource = history;
     }
 
     // Gestisce numeri, operatori, parentesi, radice e potenza
@@ -132,7 +136,7 @@ namespace CalculatorApp
       ExecuteTrigFunction(CalculatorLogic.RadToDegree, "RadToDegree");
     }
 
-    private void ExecuteTrigFunction(System.Func<double, double, bool> function, string functionName)
+    private void ExecuteTrigFunction(TrigFunction function, string functionName)
     {
       if (string.IsNullOrWhiteSpace(Display.Text) || !double.TryParse(Display.Text, out double input))
       {
@@ -142,7 +146,7 @@ namespace CalculatorApp
 
       if (function(input, out double result))
       {
-        fManageHistory($"{functionName}({Display.Text})", result);
+        fManageHistory($"{functionName}({input})", result);
         Display.Text = result.ToString();
         expression = result.ToString();
       }
