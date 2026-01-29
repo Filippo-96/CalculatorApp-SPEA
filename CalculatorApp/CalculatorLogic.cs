@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 
 namespace CalculatorApp
 {
@@ -35,13 +36,13 @@ namespace CalculatorApp
 
         if (char.IsDigit(c) || c == '.')
         {
-          string number = "";
+          var number = new StringBuilder();
           while (i < expr.Length && (char.IsDigit(expr[i]) || expr[i] == '.'))
           {
-            number += expr[i];
+            number.Append(expr[i]);
             i++;
           }
-          tokens.Add(number);
+          tokens.Add(number.ToString());
           continue;
         }
 
@@ -143,12 +144,14 @@ namespace CalculatorApp
 
         if (token == "√")
         {
+          if (stack.Count < 1) throw new InvalidOperationException("Insufficient operands");
           double a = stack.Pop();
           stack.Push(Math.Sqrt(a));
           continue;
         }
 
         // operatori binari
+        if (stack.Count < 2) throw new InvalidOperationException("Insufficient operands");
         double b = stack.Pop();
         double a2 = stack.Pop();
 
@@ -266,7 +269,7 @@ namespace CalculatorApp
     {
       try
       {
-        result = expr * (180 / Math.PI);
+        result = expr * (180.0 / Math.PI);
         return true;
       }
       catch
