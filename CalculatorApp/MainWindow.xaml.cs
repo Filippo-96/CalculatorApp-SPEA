@@ -9,9 +9,13 @@ namespace CalculatorApp
     private string expression = "";               // espressione visualizzata e valutata
     private readonly List<string> history = new(); // storico operazioni
 
+    // Delegate for trigonometric functions
+    private delegate bool TrigFunction(double input, out double result);
+
     public MainWindow()
     {
       InitializeComponent();
+      HistoryList.ItemsSource = history;
     }
 
     // Gestisce numeri, operatori, parentesi, radice e potenza
@@ -69,8 +73,7 @@ namespace CalculatorApp
     private void fManageHistory(string pExp, double pResult)
     {
       history.Add($"{pExp} = {pResult}");
-      HistoryList.ItemsSource = null;
-      HistoryList.ItemsSource = history;
+      HistoryList.Items.Refresh();
     }
 
 
@@ -95,66 +98,63 @@ namespace CalculatorApp
 
     private void Sin_Click(object sender, RoutedEventArgs e)
     {
-      double result = 0;
-      CalculatorLogic.Sin(Double.Parse(Display.Text), out result);
-      fManageHistory($"Sin{Display.Text}",result);
-      Display.Text = result.ToString();
+      ExecuteTrigFunction(CalculatorLogic.Sin, "Sin");
     }
 
     private void Cos_Click(object sender, RoutedEventArgs e)
     {
-      double result = 0;
-      CalculatorLogic.Cos(Double.Parse(Display.Text), out result);
-      fManageHistory($"Cos{Display.Text}", result);
-      Display.Text = result.ToString();
+      ExecuteTrigFunction(CalculatorLogic.Cos, "Cos");
     }
 
     private void Tan_Click(object sender, RoutedEventArgs e)
     {
-      double result = 0;
-      CalculatorLogic.Tan(Double.Parse(Display.Text), out result);
-      fManageHistory($"Tan{Display.Text}", result);
-      Display.Text = result.ToString();
+      ExecuteTrigFunction(CalculatorLogic.Tan, "Tan");
     }
 
     private void Asin_Click(object sender, RoutedEventArgs e)
     {
-      double result = 0;
-      CalculatorLogic.Asin(Double.Parse(Display.Text), out result);
-      fManageHistory($"Asin{Display.Text}", result);
-      Display.Text = result.ToString();
+      ExecuteTrigFunction(CalculatorLogic.Asin, "Asin");
     }
 
     private void Acos_Click(object sender, RoutedEventArgs e)
     {
-      double result = 0;
-      CalculatorLogic.Acos(Double.Parse(Display.Text), out result);
-      fManageHistory($"Acos{Display.Text}", result);
-      Display.Text = result.ToString();
+      ExecuteTrigFunction(CalculatorLogic.Acos, "Acos");
     }
 
     private void Atan_Click(object sender, RoutedEventArgs e)
     {
-      double result = 0;
-      CalculatorLogic.Atan(Double.Parse(Display.Text), out result);
-      fManageHistory($"Atan{Display.Text}", result);
-      Display.Text = result.ToString();
+      ExecuteTrigFunction(CalculatorLogic.Atan, "Atan");
     }
 
     private void DegreeToRad_Click(object sender, RoutedEventArgs e)
     {
-      double result = 0;
-      CalculatorLogic.DegreeToRad(Double.Parse(Display.Text), out result);
-      fManageHistory($"DegreeToRad {Display.Text}", result);
-      Display.Text = result.ToString();
+      ExecuteTrigFunction(CalculatorLogic.DegreeToRad, "DegreeToRad");
     }
 
     private void RadToDegree_Click(object sender, RoutedEventArgs e)
     {
-      double result = 0;
-      CalculatorLogic.RadToDegree(Double.Parse(Display.Text), out result);
-      fManageHistory($"RadToDegree {Display.Text}", result);
-      Display.Text = result.ToString();
+      ExecuteTrigFunction(CalculatorLogic.RadToDegree, "RadToDegree");
+    }
+
+    private void ExecuteTrigFunction(TrigFunction function, string functionName)
+    {
+      if (string.IsNullOrWhiteSpace(Display.Text) || !double.TryParse(Display.Text, out double input))
+      {
+        Display.Text = "Errore";
+        return;
+      }
+
+      if (function(input, out double result))
+      {
+        fManageHistory($"{functionName}({input})", result);
+        Display.Text = result.ToString();
+        expression = result.ToString();
+      }
+      else
+      {
+        Display.Text = "Errore";
+        expression = "";
+      }
     }
 
     private void Pi_Click(object sender, RoutedEventArgs e)
